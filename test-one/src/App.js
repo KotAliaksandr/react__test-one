@@ -1,24 +1,37 @@
 import React, {useState} from "react";
-import Postitem from "./components/Postitem";
+import PostList from "./components/PostList";
+import PostForm from "./components/PostForm";
 import './styles/App.css'
 
 function App() {
 
-  const [post, setPost] = useState(
+  const [posts, setPosts] = useState(
     [
-      {id: 1, title: 'JavaScript', body: 'description'},
-      {id: 2, title: 'JavaScript', body: 'description'},
-      {id: 3, title: 'JavaScript', body: 'description'},
+      {id: 1, title: 'JavaScript 1', body: 'description'},
+      {id: 2, title: 'JavaScript 2', body: 'description'},
+      {id: 3, title: 'JavaScript 3', body: 'description'},
     ]
   );
+  
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost])
+  };
+
+  const removePost = (post) => {
+    setPosts(posts.filter(item_post => item_post.id !== post.id))
+  };
 
   return (
     <div className="App">
-
-      <h1 className="titlePage">List posts</h1>
-      {post.map(post => 
-        <Postitem post={post} key={post.id}/>
-        )}
+      <PostForm create={createPost} />
+      { posts.length
+        ? 
+        <PostList remove={removePost} posts={posts} title='It is lists posts 1'/>
+        : 
+        <h1 style={{textAlign: 'center'}}>
+          Post does not exist
+        </h1>
+      }
     </div>
   );
 }
